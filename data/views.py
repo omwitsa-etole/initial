@@ -242,6 +242,7 @@ def QuestionView(request):
     return render(request, 'questions.html', locals())
 def QuestionOutView(request):
     error = '';
+    new_question = None
     search_query = request.GET.get('search')
     username = "not logged in"
     if search_query:
