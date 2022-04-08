@@ -1,5 +1,6 @@
 from django import forms
 from .models import User, Comment, Video, Image, Question
+from django.contrib.auth.forms import UserCreationForm
    
 class LoginForm(forms.Form):
    username = forms.CharField(max_length = 100)
@@ -8,7 +9,8 @@ class LoginForm(forms.Form):
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('username', 'email', 'gender', 'password')
+        
    
 class VideoForm(forms.ModelForm):
     class Meta:

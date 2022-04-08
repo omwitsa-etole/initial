@@ -25,31 +25,22 @@ class Video(models.Model):
       db_table = "video"
 
 class User(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
     username = models.CharField(max_length=50,null=False, blank=False,default="")
     email = models.CharField(max_length=50, default="")
     password = models.CharField(max_length = 100, default="", null=False, blank=False)
-    date_of_birth = models.DateField(null=True, blank=True)
-    active = models.BooleanField(default=True)
-    gender_choice = (
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('other', 'Other'),
-    )
-    gender = models.CharField(max_length=10,choices=gender_choice, null=False, blank=False)
+    gender = models.CharField(max_length=10, null=False, blank=False)
     
     
     def get_absolute_url(self):
         return reverse('upload_detail', args=[str(self.id)])
         
     def _str_(self):
-        return f'{self.last_name}, {self.first_name}'
+        return self.username
 
 class Question(models.Model):
-    question = models.CharField(max_length = 300,null=True, blank=True)
+    question = models.CharField(max_length = 300,null=False, blank=False)
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    more_description = models.TextField(null=True)
+    more_description = models.TextField(null=True, blank=True)
     
     class Meta:
         db_table = "question"
@@ -63,16 +54,12 @@ class Question(models.Model):
 
 class Comment(models.Model):
     video = models.ForeignKey('Video',on_delete=models.CASCADE,related_name='comments', null=True, blank=True)
-    question = models.ForeignKey('Question',on_delete=models.CASCADE, null=True, blank=True)
     commenting = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
-    
-    class Meta:
-        ordering = ['-created_on']
-        
+    question = models.ForeignKey('Question',on_delete=models.CASCADE,null=True, blank=True)
     def _str_(self):
-        return 'comment {}'.format(self.commenting)
+        return self.commenting
       
 class Image(models.Model):
     title = models.CharField(max_length = 50, null=False, blank=False)

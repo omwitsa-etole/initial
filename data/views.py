@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.contrib.auth import login, authenticate
+from django.urls import reverse_lazy
 
 def log_in(request):
     error = '';
@@ -54,19 +55,21 @@ def logout(request):
    return HttpResponse("<strong>You are logged out.</strong><a href='/video/in/'>login </a>")
   
 def SignUpView(request):
-    error = ''
-    new_user = None
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
+    error = '';
+    if request.method == "POST":
+        form = SignUpForm(data=request.POST)
+  
         if form.is_valid():
             form.save()
-            error = 'Account Created Successfully'
-        else:
-            error = 'Failed To create Account Please try again'
+            error = 'Account Created succesfully'
+        else: 
+            error = 'Failed to create account';
+       
     else:
         form = SignUpForm()
-        
+    
     return render(request, 'signup.html', locals())
+    
 def SaveVideo(request):
     
     
@@ -219,24 +222,27 @@ def ImageOutView(request):
     return render(request, 'images_out.html', {"username" : username,"image_list":image_list})
 def QuestionView(request):
     error = '';
+    saved =False
     search_query = request.GET.get('search')
     if request.session.has_key('username'):
         username = request.session['username']
-        new_question = None
         if search_query:
             question_list = Question.objects.filter(Q(question__icontains=search_query) & Q(more_description__icontains=search_query)).order_by("-date_created")
         else:
             question_list = Question.objects.all().order_by("-date_created")
         index = 0
-        if request.method == "POST":
-            MyQuestionForm = QuestionForm(request.POST, request.FILES) 
-            if MyQuestionForm.is_valid():
-                new_question.save()
-                saved = True
-            else:
-                MyQuestionForm = QuestionForm()
     else:
         return render(request, 'login.html', {"error_log":error})
+        
+    if request.method == "POST":
+        MyQuestionForm = QuestionForm(request.POST, request.FILES) 
+        if MyQuestionForm.is_valid():
+            new_question=MyQuestionForm.save(commit=False)
+            new_question.save()
+            saved = True
+        else:
+            MyQuestionForm = QuestionForm()
+    
         
     return render(request, 'questions.html', locals())
 def QuestionOutView(request):
