@@ -59,8 +59,7 @@ def SignUpView(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.save()
+            form.save()
             error = 'Account Created Successfully'
         else:
             error = 'Failed To create Account Please try again'

@@ -31,6 +31,7 @@ class User(models.Model):
     email = models.CharField(max_length=50, default="")
     password = models.CharField(max_length = 100, default="", null=False, blank=False)
     date_of_birth = models.DateField(null=True, blank=True)
+    active = models.BooleanField(default=True)
     gender_choice = (
         ('male', 'Male'),
         ('female', 'Female'),
@@ -52,7 +53,6 @@ class Question(models.Model):
     
     class Meta:
         db_table = "question"
-        ordering = ['-date_created']
         
     def _str_(self):
         return self.question
