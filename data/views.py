@@ -232,7 +232,6 @@ def QuestionView(request):
         if request.method == "POST":
             MyQuestionForm = QuestionForm(request.POST, request.FILES) 
             if MyQuestionForm.is_valid():
-                new_question = MyQuestionForm.save(commit=False)
                 new_question.save()
                 saved = True
             else:
