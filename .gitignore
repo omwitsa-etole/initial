@@ -133,3 +133,8 @@ dmypy.json
 
 # Database
 *.sqlite3
+
+ppm/migrations/0001_initial.py
+[etc.]
+ppm/migrations/0014_auto_20150201_0247.py
+[etc.]
