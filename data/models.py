@@ -49,7 +49,7 @@ class User(models.Model):
 class Question(models.Model):
     question = models.CharField(max_length = 300,null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    more_description = models.TextField()
+    more_description = models.TextField(null=True)
     
     class Meta:
         db_table = "question"
