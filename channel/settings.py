@@ -28,7 +28,7 @@ SECRET_KEY =  os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+
 #DEBUG = True
 DEBUG = os.getenv("DEBUG", "False") == "False"
 
-ALLOWED_HOSTS = ['192.168.43.56', '192.168.43.88']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -123,7 +123,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-<^>STATIC_ROOT = os.path.join(BASE_DIR, "static")<^>
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
